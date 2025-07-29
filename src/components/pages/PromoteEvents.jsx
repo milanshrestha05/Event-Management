@@ -7,6 +7,7 @@ export default function PromoteWebsite() {
     <>
       <Navbar />
 
+      {/* Hero Section */}
       <section className="py-24 text-center text-white bg-indigo-600">
         <div className="container px-4 mx-auto">
           <h2 className="mb-4 text-4xl font-bold">Promote Your Events</h2>
@@ -16,10 +17,13 @@ export default function PromoteWebsite() {
         </div>
       </section>
 
+      {/* Promotional Tools Section */}
       <section className="py-16 bg-gray-100">
         <div className="container px-4 mx-auto">
-          <div className="grid gap-10 md:grid-cols-2">
-            <div className="p-8 transition duration-300 bg-white shadow-md rounded-xl hover:shadow-xl">
+          <div className="grid gap-8 md:grid-cols-2">
+            
+            {/* Social Media Card */}
+            <div className="p-8 bg-white shadow-md rounded-xl hover:shadow-xl transition duration-300">
               <h3 className="mb-3 text-2xl font-semibold text-black">Share on Social Media</h3>
               <p className="mb-4 text-gray-700">
                 Easily share your events on Facebook, Twitter, and Instagram to reach a wider audience.
@@ -31,7 +35,8 @@ export default function PromoteWebsite() {
               </div>
             </div>
 
-            <div className="p-8 transition duration-300 bg-white shadow-md rounded-xl hover:shadow-xl">
+            {/* Email Campaigns Card */}
+            <div className="p-8 bg-white shadow-md rounded-xl hover:shadow-xl transition duration-300">
               <h3 className="mb-3 text-2xl font-semibold text-black">Send Email Campaigns</h3>
               <p className="mb-4 text-gray-700">
                 Send custom email invitations to your contacts or previous attendees with ease.
@@ -44,6 +49,7 @@ export default function PromoteWebsite() {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="py-6 text-sm text-center text-gray-500 bg-gray-100 border-t">
         © 2025 Eventful. All rights reserved.
       </footer>
