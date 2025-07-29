@@ -1,9 +1,6 @@
-// src/utils/auth.js
-
-// Save token & role to localStorage
 export const loginUser = (token, role = "user") => {
   localStorage.setItem("userToken", token);
-  localStorage.setItem("userRole", role); // e.g., "user" or "admin"
+  localStorage.setItem("userRole", role); 
 };
 
 export const logoutUser = () => {
