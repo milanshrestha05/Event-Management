@@ -25,7 +25,7 @@ export default function Home() {
             Host Events. Seamlessly.
           </h2>
           <p className="max-w-2xl mx-auto mb-8 text-xl">
-            Create, promote, and manage events with ease – all in one platform.
+            Create, promote, and manage events with ease - all in one platform.
           </p>
           <button
             onClick={handleGetStarted}
@@ -39,7 +39,7 @@ export default function Home() {
       <section className="px-6 py-20 text-center bg-white animate-fade-in-up">
         <h3 className="mb-4 text-3xl font-bold">Why Choose Eventful?</h3>
         <p className="max-w-xl mx-auto mb-12 text-gray-600">
-          We're simplifying event hosting. Whether it's a workshop, conference, or party – Eventful is designed to save you time and boost your reach.
+          We're simplifying event hosting. Whether it's a workshop, conference, or party - Eventful is designed to save you time and boost your reach.
         </p>
         <div className="grid max-w-6xl gap-8 mx-auto md:grid-cols-3">
           {[
