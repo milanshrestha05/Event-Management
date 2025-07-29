@@ -107,7 +107,7 @@ export default function Dashboard() {
         <h3 className="mb-6 text-3xl font-bold text-indigo-800">Your Stats</h3>
         <div className="grid max-w-5xl grid-cols-1 gap-6 px-6 mx-auto md:grid-cols-3">
           <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
-            <h4 className="text-3xl font-bold text-indigo-700">🎉 12</h4>
+            <h4 className="text-3xl font-bold text-indigo-700">🎉 9</h4>
             <p className="mt-2 text-gray-600">Events Attending</p>
           </div>
           <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
@@ -115,7 +115,7 @@ export default function Dashboard() {
             <p className="mt-2 text-gray-600">Total Attendees</p>
           </div>
           <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
-            <h4 className="text-3xl font-bold text-indigo-700">📆 8</h4>
+            <h4 className="text-3xl font-bold text-indigo-700">📆 3</h4>
             <p className="mt-2 text-gray-600">Events This Month</p>
           </div>
         </div>

@@ -165,7 +165,7 @@ export default function AdminDashboard() {
               <h4 className="text-2xl font-bold text-indigo-700">
                 {new Set(events.map((e) => e.location)).size}
               </h4>
-              <p className="text-sm text-gray-600">Unique Locations</p>
+              <p className="text-sm text-gray-600">Locations</p>
             </div>
           </div>
         </div>
