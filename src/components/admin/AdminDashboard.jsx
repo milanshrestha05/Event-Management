@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { logoutUser } from "../../utils/auth";
+import { logoutUser } from "../../auth";
 import { useNavigate } from "react-router-dom";
+import { FaCalendarAlt, FaMapMarkerAlt, FaSignOutAlt } from "react-icons/fa";
 
 const LOCAL_STORAGE_KEY = "eventful_events";
 
 export default function AdminDashboard() {
   const [events, setEvents] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -16,27 +16,19 @@ export default function AdminDashboard() {
   const [editIndex, setEditIndex] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [fadeIn, setFadeIn] = useState(false);
   const navigate = useNavigate();
 
-  // Load events on first mount
   useEffect(() => {
-    try {
-      const storedEvents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-      if (Array.isArray(storedEvents)) {
-        setEvents(storedEvents);
-      }
-    } catch (err) {
-      console.error("Error loading events from localStorage:", err);
-    }
-    setIsLoaded(true);
+    const storedEvents =
+      JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    setEvents(storedEvents);
+    setFadeIn(true);
   }, []);
 
-  // Save events when updated, after initial load
   useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(events));
-    }
-  }, [events, isLoaded]);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(events));
+  }, [events]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -44,8 +36,6 @@ export default function AdminDashboard() {
 
   const handleAddOrEdit = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.date || !formData.location) return;
-
     if (editIndex !== null) {
       const updated = [...events];
       updated[editIndex] = formData;
@@ -55,11 +45,9 @@ export default function AdminDashboard() {
       setEvents([...events, formData]);
       setSuccessMsg("Event added successfully!");
     }
-
     setFormData({ title: "", date: "", location: "", description: "" });
     setEditIndex(null);
-
-    setTimeout(() => setSuccessMsg(""), 5000);
+    setTimeout(() => setSuccessMsg(""), 2000);
   };
 
   const handleEdit = (index) => {
@@ -68,15 +56,16 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = (index) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
-    const updated = [...events];
-    updated.splice(index, 1);
-    setEvents(updated);
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      const updated = [...events];
+      updated.splice(index, 1);
+      setEvents(updated);
+    }
   };
 
   const handleLogout = () => {
     logoutUser();
-    navigate("/login");
+    navigate("/adminlogin");
   };
 
   const filteredEvents = events.filter((event) =>
@@ -84,32 +73,42 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="min-h-screen px-6 py-10 bg-gray-100">
-      <div className="max-w-4xl p-8 mx-auto bg-white rounded-lg shadow-lg">
+    <section
+      className={`min-h-screen px-4 py-10 bg-gradient-to-tr from-indigo-100 to-purple-200 transition-opacity duration-700 ${
+        fadeIn ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div className="max-w-5xl p-8 mx-auto bg-white shadow-xl rounded-2xl">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold text-indigo-700">Admin Dashboard</h2>
+          <h2 className="text-3xl font-extrabold text-indigo-700">
+            Admin Dashboard
+          </h2>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+            className="flex items-center gap-2 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
           >
+            <FaSignOutAlt />
             Logout
           </button>
         </div>
 
         {successMsg && (
-          <div className="p-2 mb-4 text-center text-green-700 bg-green-100 rounded">
+          <div className="p-3 mb-4 font-medium text-center text-green-800 bg-green-100 border border-green-200 rounded-lg">
             {successMsg}
           </div>
         )}
 
-        <form onSubmit={handleAddOrEdit} className="mb-10 space-y-4">
+        <form
+          onSubmit={handleAddOrEdit}
+          className="grid gap-4 mb-10 md:grid-cols-2"
+        >
           <input
             type="text"
             name="title"
             placeholder="Event Title"
             value={formData.title}
             onChange={handleChange}
-            className="w-full p-3 border rounded"
+            className="p-3 border border-transparent rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-500"
             required
           />
           <input
@@ -117,7 +116,7 @@ export default function AdminDashboard() {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            className="w-full p-3 border rounded"
+            className="p-3 border border-transparent rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-500"
             required
           />
           <input
@@ -126,7 +125,7 @@ export default function AdminDashboard() {
             placeholder="Location"
             value={formData.location}
             onChange={handleChange}
-            className="w-full p-3 border rounded"
+            className="p-3 border border-transparent rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-500"
             required
           />
           <textarea
@@ -134,30 +133,35 @@ export default function AdminDashboard() {
             placeholder="Event Description (optional)"
             value={formData.description}
             onChange={handleChange}
-            className="w-full p-3 border rounded"
+            className="p-3 border border-transparent rounded-lg bg-indigo-50 focus:ring-2 focus:ring-indigo-500 md:col-span-2"
+            rows="3"
           ></textarea>
           <button
             type="submit"
-            className="px-6 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700"
+            className="w-full py-3 text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 md:col-span-2"
           >
             {editIndex !== null ? "Update Event" : "Add Event"}
           </button>
         </form>
 
-        <div className="mb-6">
-          <h3 className="mb-2 text-xl font-semibold">Event Stats</h3>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="p-4 text-center rounded bg-indigo-50">
-              <h4 className="text-2xl font-bold text-indigo-700">{events.length}</h4>
+        <div className="mb-10">
+          <h3 className="mb-4 text-xl font-semibold text-indigo-700">
+            Event Stats
+          </h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="p-4 text-center shadow bg-indigo-50 rounded-xl">
+              <h4 className="text-2xl font-bold text-indigo-700">
+                {events.length}
+              </h4>
               <p className="text-sm text-gray-600">Total Events</p>
             </div>
-            <div className="p-4 text-center rounded bg-indigo-50">
+            <div className="p-4 text-center shadow bg-indigo-50 rounded-xl">
               <h4 className="text-2xl font-bold text-indigo-700">
                 {events.filter((e) => new Date(e.date) >= new Date()).length}
               </h4>
               <p className="text-sm text-gray-600">Upcoming Events</p>
             </div>
-            <div className="p-4 text-center rounded bg-indigo-50">
+            <div className="p-4 text-center shadow bg-indigo-50 rounded-xl">
               <h4 className="text-2xl font-bold text-indigo-700">
                 {new Set(events.map((e) => e.location)).size}
               </h4>
@@ -171,49 +175,56 @@ export default function AdminDashboard() {
           placeholder="Search events by title..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-3 mb-6 border rounded"
+          className="w-full p-3 mb-6 bg-white border rounded-lg shadow focus:ring-2 focus:ring-indigo-500"
         />
 
-        <div>
-          <h3 className="mb-4 text-xl font-semibold">All Events</h3>
-          {filteredEvents.length === 0 ? (
-            <p className="text-gray-500">No matching events found.</p>
-          ) : (
-            <ul className="space-y-4">
-              {filteredEvents.map((event, index) => (
-                <li
-                  key={index}
-                  className="flex flex-col items-start justify-between p-4 border rounded bg-gray-50 md:flex-row md:items-center"
-                >
-                  <div className="mb-2 md:mb-0">
-                    <h4 className="text-lg font-bold">{event.title}</h4>
-                    <p className="text-sm text-gray-600">
-                      {event.date} - {event.location}
+        <h3 className="mb-4 text-xl font-semibold text-indigo-700">
+          All Events
+        </h3>
+        {filteredEvents.length === 0 ? (
+          <p className="text-gray-500">No matching events found.</p>
+        ) : (
+          <ul className="space-y-4">
+            {filteredEvents.map((event, index) => (
+              <li
+                key={index}
+                className="flex flex-col justify-between p-4 border shadow-md bg-gray-50 rounded-xl md:flex-row md:items-center"
+              >
+                <div className="mb-2 md:mb-0">
+                  <h4 className="text-lg font-bold text-indigo-800">
+                    {event.title}
+                  </h4>
+                  <p className="flex items-center gap-1 text-sm text-gray-600">
+                    <FaCalendarAlt className="text-indigo-500" /> {event.date}{" "}
+                    &nbsp;
+                    <FaMapMarkerAlt className="ml-4 text-indigo-500" />{" "}
+                    {event.location}
+                  </p>
+                  {event.description && (
+                    <p className="mt-1 text-sm text-gray-500">
+                      {event.description}
                     </p>
-                    {event.description && (
-                      <p className="mt-1 text-sm text-gray-500">{event.description}</p>
-                    )}
-                  </div>
-                  <div className="mt-2 space-x-2 md:mt-0">
-                    <button
-                      onClick={() => handleEdit(index)}
-                      className="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(index)}
-                      className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                  )}
+                </div>
+                <div className="flex gap-2 mt-2 md:mt-0">
+                  <button
+                    onClick={() => handleEdit(index)}
+                    className="px-4 py-1 text-white bg-yellow-500 rounded-lg hover:bg-yellow-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="px-4 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-    </div>
+    </section>
   );
 }

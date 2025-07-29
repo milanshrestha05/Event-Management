@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { isAuthenticated, getUserRole } from "../../utils/auth";
+import { isAuthenticated, getUserRole } from "../../auth";
 
 export default function PrivateRoute({ children }) {
 
