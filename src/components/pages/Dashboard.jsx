@@ -40,12 +40,20 @@ export default function Dashboard() {
         <div className="container px-4 mx-auto">
           <h2 className="mb-4 text-4xl font-extrabold">Welcome to Your Dashboard</h2>
           <p className="mb-6 text-lg">Stay updated with all your upcoming events.</p>
-          <button
-            onClick={handleLogout}
-            className="px-6 py-2 font-semibold text-indigo-700 transition bg-white rounded shadow hover:bg-gray-100 hover:scale-105"
-          >
-            Logout
-          </button>
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => navigate("/PromoteEvents")}
+              className="px-6 py-2 font-semibold text-indigo-700 transition bg-white rounded shadow hover:bg-gray-100 hover:scale-105"
+            >
+              Promote Events
+            </button>
+            <button
+              onClick={handleLogout}
+              className="px-6 py-2 font-semibold text-indigo-700 transition bg-white rounded shadow hover:bg-gray-100 hover:scale-105"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </section>
 
@@ -103,23 +111,6 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="py-20 text-center bg-indigo-50">
-        <h3 className="mb-6 text-3xl font-bold text-indigo-800">Your Stats</h3>
-        <div className="grid max-w-5xl grid-cols-1 gap-6 px-6 mx-auto md:grid-cols-3">
-          <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
-            <h4 className="text-3xl font-bold text-indigo-700">🎉 9</h4>
-            <p className="mt-2 text-gray-600">Events Attending</p>
-          </div>
-          <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
-            <h4 className="text-3xl font-bold text-indigo-700">👥 240+</h4>
-            <p className="mt-2 text-gray-600">Total Attendees</p>
-          </div>
-          <div className="p-6 transition bg-white rounded-lg shadow-md hover:shadow-xl">
-            <h4 className="text-3xl font-bold text-indigo-700">📆 3</h4>
-            <p className="mt-2 text-gray-600">Events This Month</p>
-          </div>
-        </div>
-      </section>
 
       <section className="py-20 text-center bg-white">
         <h3 className="mb-4 text-3xl font-bold text-gray-800">Need Help?</h3>

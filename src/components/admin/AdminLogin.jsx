@@ -17,7 +17,7 @@ export default function AdminLogin() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === "admin@gmail.com" && password === "admin123") {
+    if (email === "admin0000@gmail.com" && password === "admin16") {
       loginUser("adminToken123", "admin");
       navigate("/admin");
     } else {
